@@ -16,7 +16,7 @@ var auditTask = function(taskEl) {
   } else if (Math.abs(moment().diff(time, "days")) <= 2){
     $(taskEl).addClass("list-group-item-warning");
   }
-  console.log(taskEl);
+  
 }
 
 var createTask = function(taskText, taskDate, taskList) {
@@ -91,43 +91,49 @@ var saveTasks = function() {
 };
 
 $(".list-group").on("click", "p", function(){
-  $(".list-group").on("blur", "textarea", function(){
-    //get the textarea's current value/text
-    var text = $(this)
-      .val()
-      .trim();
 
-    //get the parent ul's id attribute
-    var status = $(this)
-      .closest(".list-group")
-      .attr("id")
-      .replace("list-", "");
-
-    //get the task's position in the list of other li elements
-    var index = $(this)
-      .closest(".list-group-item")
-      .index();
-
-    tasks[status][index].text = text;
-    saveTasks();
-
-    //recreate p element
-    var taskP = $("<p>")
-    .addClass("m-1")
-    .text(text);
-
-    $(this).replaceWith(taskP);
-    
-  })
   var text = $(this)
-  var textInput = $("<textarea>")
-  $(this).replaceWith(textInput)
-  textInput.trigger("focus")
-    .addClass("form-control")
-    .val(text)
     .text()
     .trim();
+
+  var textInput = $("<textarea>")
+    .addClass('form-control')
+    .val(text);
+
+  $(this).replaceWith(textInput)
+  textInput.trigger("focus");
+
 });
+
+$(".list-group").on("blur", "textarea", function(){
+  //get the textarea's current value/text
+  var text = $(this)
+    .val()
+    .trim();
+    
+
+  //get the parent ul's id attribute
+  var status = $(this)
+    .closest(".list-group")
+    .attr("id")
+    .replace("list-", "");
+
+  //get the task's position in the list of other li elements
+  var index = $(this)
+    .closest(".list-group-item")
+    .index();
+
+  tasks[status][index].text = text;
+  saveTasks();
+
+  //recreate p element
+  var taskP = $("<p>")
+  .addClass("m-1")
+  .text(text);
+
+  $(this).replaceWith(taskP);
+  
+})
 
 //due date was clicked
 $(".list-group").on("click", "span", function() {
